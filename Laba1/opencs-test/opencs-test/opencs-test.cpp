@@ -34,15 +34,15 @@ double calcPsnr(Mat& im1, Mat& im2) {
 	double M = 255;
 	double MSE = calcMse(im1, im2);
 	if (MSE == 0) {
-		cout << "Identical pictures!!!" << endl;
-		return 10.0 * log10(M * M);//что вернуть??
+		cout << "psnr:   " << "Identical pictures!!!" << endl;
+		return 10.0 * log10(M * M);
 	}
 	else {
 		return 10.0 * log10(M * M / MSE);
 	}
 }
 
-double CalcMod(double a, int b){
+double CalcMod(double a, int b) {
 	return a - floor(a / b) * b;
 }
 
@@ -59,8 +59,8 @@ Mat bgrToHsv(Mat& imBGR) {
 			double bb = (double)b / 255;
 			double gg = (double)g / 255;
 			double rr = (double)r / 255;
-			double Cmax = max({bb, gg, rr});
-			double Cmin = min({bb, gg, rr});
+			double Cmax = max({ bb, gg, rr });
+			double Cmin = min({ bb, gg, rr });
 			double d = Cmax - Cmin;
 			double H, S, V;
 			double qwe = CalcMod((gg - bb) / d, 6);
@@ -71,7 +71,7 @@ Mat bgrToHsv(Mat& imBGR) {
 			if (Cmax == 0) S = 0;
 			else S = d / Cmax;
 			V = Cmax;
-			Vec3d kek = Vec3d(H, S*255, V*255);
+			Vec3d kek = Vec3d(H, S * 255, V * 255);
 			imHSV.at<Vec3b>(x, y) = kek;
 		}
 	}
@@ -103,7 +103,6 @@ Mat hsvToBgr(Mat& imHSV) {
 			kek[1] = (kek[1] + m) * 255;
 			kek[2] = (kek[2] + m) * 255;
 
-
 			imBGR.at<Vec3b>(x, y) = kek;
 		}
 	}
@@ -124,7 +123,7 @@ Mat changeBrightness(Mat& input, double val) {
 }
 
 int main() {
-	/*//Метрика сходства двух изображений
+	//Метрика сходства двух изображений
 	String im_name1("../data/1.jpg");
 	String im_name2("../data/2.jpg");
 	Mat img1 = imread(im_name1);
@@ -142,7 +141,7 @@ int main() {
 
 	if (height1 != height2 || width1 != width2)cout << -1 << endl;
 	else {
-		cout << calcPsnr(img1, img2) << endl;
+		cout << "psnr:   " << calcPsnr(img1, img2) << endl;
 	}
 
 	//Конвертация цветного изображения в монохромное изображение
@@ -168,14 +167,12 @@ int main() {
 	waitKey();
 
 
-	*/
 	//BGR <---> HSV
 	String im_name5("../data/1.jpg");
 	Mat imgBGR = imread(im_name5);
 	Mat imBGR2HSV, imHSV2BGR;
-	
-	cvtColor(imgBGR, imBGR2HSV, COLOR_BGR2HSV);
-	cvtColor(imBGR2HSV, imHSV2BGR, COLOR_HSV2BGR);
+	cvtColor(imgBGR, imBGR2HSV, COLOR_BGR2HSV); //BGR --->HSV
+	cvtColor(imBGR2HSV, imHSV2BGR, COLOR_HSV2BGR);//HSV ---> BGR
 	imshow("BGR to HSV", imBGR2HSV);
 	waitKey();
 	imshow("HSV to BGR", imHSV2BGR);
@@ -183,19 +180,20 @@ int main() {
 
 	String im_name6("../data/1.jpg");
 	Mat imBGR = imread(im_name6);
-	Mat imHSV = bgrToHsv(imBGR);
+	Mat imHSV = bgrToHsv(imBGR);//BGR --->HSV
 	imshow("MY BGR to HSV", imHSV);
 	waitKey();
-	Mat kek = hsvToBgr(imHSV);
+	Mat kek = hsvToBgr(imHSV);//HSV ---> BGR
 	imshow("MY HSV to BGR", kek);
 	waitKey();
 
+	//увеличение яркости
 	String im_name7("../data/1.jpg");
 	Mat image = imread(im_name6);
 	Mat imageOutput = changeBrightness(image, 1.5);
 	imshow("My change brightness of RGB", imageOutput);
 	waitKey();
-	
+
 	String im_name8("../data/1.jpg");
 	image = imread(im_name6);
 	Mat imageHSV = bgrToHsv(image);
