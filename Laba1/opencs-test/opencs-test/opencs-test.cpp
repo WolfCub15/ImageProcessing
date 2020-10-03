@@ -18,16 +18,10 @@ double calcMse(Mat& im1, Mat& im2) {
 	int height = im1.rows;
 	int width = im2.cols;
 	int N = height * width;
-	for (int x = 0; x < height; x++) {
-		for (int y = 0; y < width; y++) {
-			double value1 = im1.at<double>(x, y);
-			double value2 = im2.at<double>(x, y);
-			double value = value1 - value2;
-			ans += value * value;
-		}
-	}
-	ans /= N;
-	return ans;
+	ans += sum((im1 - im2).mul(im1 - im2))[0];
+	ans += sum((im1 - im2).mul(im1 - im2))[1];
+	ans += sum((im1 - im2).mul(im1 - im2))[2];
+	return ans / N;
 }
 
 double calcPsnr(Mat& im1, Mat& im2) {
@@ -109,17 +103,9 @@ Mat hsvToBgr(Mat& imHSV) {
 	return imBGR;
 }
 
+
 Mat changeBrightness(Mat& input, double val) {
-	Mat output;
-	input.copyTo(output);
-	int height = input.rows;
-	int width = input.cols;
-	for (int x = 0; x < height; x++) {
-		for (int y = 0; y < width; y++) {
-			output.at<Vec3b>(x, y) = input.at<Vec3b>(x, y) * val;
-		}
-	}
-	return output;
+	return input * val;
 }
 
 int main() {
@@ -141,19 +127,29 @@ int main() {
 
 	if (height1 != height2 || width1 != width2)cout << -1 << endl;
 	else {
-		cout << "psnr:   " << calcPsnr(img1, img2) << endl;
+		long double T1 = clock();
+		double PSNR = calcPsnr(img1, img2);
+		long double T2 = clock();
+		T2 -= T1;
+		cout << "psnr:   " << PSNR << endl;
+		cout << "psnr time :  " << fixed << setprecision(20) << T2 / CLOCKS_PER_SEC << '\n';
 	}
 
 	//Конвертация цветного изображения в монохромное изображение
 	String im_name3("../data/4.jpg");
 	Mat tmp = imread(im_name3);
 	Mat img_gray;
+	long double t1gray = clock();
 	cvtColor(tmp, img_gray, COLOR_BGR2GRAY);
+	long double t2gray = clock();
+	t2gray -= t1gray;
+	cout << "opencv BGR to GRAY:  " << fixed << setprecision(20) << t2gray / CLOCKS_PER_SEC << '\n';
 	imshow("IMG_GRAY", img_gray);
 	waitKey();
 
 	String im_name4("../data/4.jpg");
 	Mat imgToGray = imread(im_name4);
+	long double t1gray1 = clock();
 	int height = imgToGray.rows;
 	int width = imgToGray.cols;
 	for (int x = 0; x < height; x++) {
@@ -163,6 +159,9 @@ int main() {
 			imgToGray.at<Vec3b>(x, y) = Vec3b(m, m, m);
 		}
 	}
+	long double t2gray1 = clock();
+	t2gray1 -= t1gray1;
+	cout << "MY BGR to GRAY:  " << fixed << setprecision(20) << t2gray1 / CLOCKS_PER_SEC << '\n';
 	imshow("MY_IMG_GRAY", imgToGray);
 	waitKey();
 
@@ -171,8 +170,16 @@ int main() {
 	String im_name5("../data/1.jpg");
 	Mat imgBGR = imread(im_name5);
 	Mat imBGR2HSV, imHSV2BGR;
+	long double t1bgr = clock();
 	cvtColor(imgBGR, imBGR2HSV, COLOR_BGR2HSV); //BGR --->HSV
+	long double t2bgr = clock();
+	t2bgr -= t1bgr;
+	cout << "opencv BGR to HSV:  " << fixed << setprecision(20) << t2bgr / CLOCKS_PER_SEC << '\n';
+	long double t1hsv = clock();
 	cvtColor(imBGR2HSV, imHSV2BGR, COLOR_HSV2BGR);//HSV ---> BGR
+	long double t2hsv = clock();
+	t2hsv -= t1hsv;
+	cout << "opencv HSV to BGR:  " << fixed << setprecision(20) << t2hsv / CLOCKS_PER_SEC << '\n';
 	imshow("BGR to HSV", imBGR2HSV);
 	waitKey();
 	imshow("HSV to BGR", imHSV2BGR);
@@ -180,24 +187,40 @@ int main() {
 
 	String im_name6("../data/1.jpg");
 	Mat imBGR = imread(im_name6);
+	long double t1bgrToHsv = clock();
 	Mat imHSV = bgrToHsv(imBGR);//BGR --->HSV
+	long double t2bgrToHsv = clock();
+	t2bgrToHsv -= t1bgrToHsv;
+	cout << "MY BGR to HSV:  " << fixed << setprecision(20) << t2bgrToHsv / CLOCKS_PER_SEC << '\n';
 	imshow("MY BGR to HSV", imHSV);
 	waitKey();
+	long double t1hsvToBgr = clock();
 	Mat kek = hsvToBgr(imHSV);//HSV ---> BGR
+	long double t2hsvToBgr = clock();
+	t2hsvToBgr -= t1hsvToBgr;
+	cout << "MY HSV to BGR:  " << fixed << setprecision(20) << t2hsvToBgr / CLOCKS_PER_SEC << '\n';
 	imshow("MY HSV to BGR", kek);
 	waitKey();
 
 	//увеличение яркости
 	String im_name7("../data/1.jpg");
-	Mat image = imread(im_name6);
+	Mat image = imread(im_name7);
+	long double t1 = clock();
 	Mat imageOutput = changeBrightness(image, 1.5);
+	long double t2 = clock();
+	t2 -= t1;
+	cout << "My change brightness of RGB:  " << fixed << setprecision(20) << t2 / CLOCKS_PER_SEC << '\n';
 	imshow("My change brightness of RGB", imageOutput);
 	waitKey();
 
 	String im_name8("../data/1.jpg");
 	image = imread(im_name6);
 	Mat imageHSV = bgrToHsv(image);
+	long double t1HSV = clock();
 	imageOutput = changeBrightness(imageHSV, 1.5);
+	long double t2HSV = clock();
+	t2HSV -= t1HSV;
+	cout << "My change brightness of HSV:  " << fixed << setprecision(20) << t2HSV / CLOCKS_PER_SEC << '\n';
 	imshow("My change brightness of HSV", imageOutput);
 	waitKey();
 	return 0;
