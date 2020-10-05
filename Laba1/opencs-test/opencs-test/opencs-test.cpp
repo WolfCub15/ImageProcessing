@@ -12,6 +12,7 @@
 using namespace cv;
 using namespace std;
 using namespace cv::utils::fs;
+typedef Vec3b Pixel;
 
 double calcMse(Mat& im1, Mat& im2) {
 	double ans = 0;
@@ -150,15 +151,14 @@ int main() {
 	String im_name4("../data/4.jpg");
 	Mat imgToGray = imread(im_name4);
 	long double t1gray1 = clock();
-	int height = imgToGray.rows;
-	int width = imgToGray.cols;
-	for (int x = 0; x < height; x++) {
-		for (int y = 0; y < width; y++) {
-			int m = imgToGray.at<Vec3b>(x, y)[0] + imgToGray.at<Vec3b>(x, y)[1] + imgToGray.at<Vec3b>(x, y)[2];
-			m /= 3;
-			imgToGray.at<Vec3b>(x, y) = Vec3b(m, m, m);
-		}
-	}
+	imgToGray.forEach<Vec3b>([](Vec3b& p, const int* pos) {
+		int m = p[0] + p[1] + p[2];
+		m /= 3;
+		p[0] = m;
+		p[1] = m;
+		p[2] = m;
+
+		});
 	long double t2gray1 = clock();
 	t2gray1 -= t1gray1;
 	cout << "MY BGR to GRAY:  " << fixed << setprecision(20) << t2gray1 / CLOCKS_PER_SEC << '\n';
