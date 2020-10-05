@@ -12,7 +12,6 @@
 using namespace cv;
 using namespace std;
 using namespace cv::utils::fs;
-typedef Vec3b Pixel;
 
 double calcMse(Mat& im1, Mat& im2) {
 	double ans = 0;
@@ -42,66 +41,54 @@ double CalcMod(double a, int b) {
 }
 
 Mat bgrToHsv(Mat& imBGR) {
-	Mat imHSV;
-	imBGR.copyTo(imHSV);
-	int height = imBGR.rows;
-	int width = imBGR.cols;
-	for (int x = 0; x < height; x++) {
-		for (int y = 0; y < width; y++) {
-			int b = imBGR.at<Vec3b>(x, y)[0];
-			int g = imBGR.at<Vec3b>(x, y)[1];
-			int r = imBGR.at<Vec3b>(x, y)[2];
-			double bb = (double)b / 255;
-			double gg = (double)g / 255;
-			double rr = (double)r / 255;
-			double Cmax = max({ bb, gg, rr });
-			double Cmin = min({ bb, gg, rr });
-			double d = Cmax - Cmin;
-			double H, S, V;
-			double qwe = CalcMod((gg - bb) / d, 6);
-			if (d == 0) H = 0;
-			else if (Cmax == rr) H = 60 * qwe;
-			else if (Cmax == gg) H = 60 * (((bb - rr) / d) + 2);
-			else if (Cmax == bb) H = 60 * (((rr - gg) / d) + 4);
-			if (Cmax == 0) S = 0;
-			else S = d / Cmax;
-			V = Cmax;
-			Vec3d kek = Vec3d(H, S * 255, V * 255);
-			imHSV.at<Vec3b>(x, y) = kek;
-		}
-	}
-	return imHSV;
+	imBGR.forEach<Vec3b>([](Vec3b& p, const int* pos) {
+		int b = p[0];
+		int g = p[1];
+		int r = p[2];
+		double bb = (double)b / 255;
+		double gg = (double)g / 255;
+		double rr = (double)r / 255;
+		double Cmax = max({ bb, gg, rr });
+		double Cmin = min({ bb, gg, rr });
+		double d = Cmax - Cmin;
+		double H, S, V;
+		double qwe = CalcMod((gg - bb) / d, 6);
+		if (d == 0) H = 0;
+		else if (Cmax == rr) H = 60 * qwe;
+		else if (Cmax == gg) H = 60 * (((bb - rr) / d) + 2);
+		else if (Cmax == bb) H = 60 * (((rr - gg) / d) + 4);
+		if (Cmax == 0) S = 0;
+		else S = d / Cmax;
+		V = Cmax;
+		Vec3d kek = Vec3d(H, S * 255, V * 255);
+		p = kek;
+
+		});
+	return imBGR;
 }
 
 Mat hsvToBgr(Mat& imHSV) {
-	Mat imBGR;
-	imHSV.copyTo(imBGR);
-	int height = imHSV.rows;
-	int width = imHSV.cols;
-	for (int x = 0; x < height; x++) {
-		for (int y = 0; y < width; y++) {
-			double H = imHSV.at<Vec3b>(x, y)[0];
-			double S = (double)imHSV.at<Vec3b>(x, y)[1] / 255;
-			double V = (double)imHSV.at<Vec3b>(x, y)[2] / 255;
-			double C = V * S;
-			double X = C * (1 - abs(CalcMod(H / 60, 2) - 1));
-			double m = V - C;
-			double h = H;
-			Vec3d kek;
-			if (h >= 0 && h < 60)		kek = Vec3d(0, X, C);
-			if (h >= 60 && h < 120)		kek = Vec3d(0, C, X);
-			if (h >= 120 && h < 180)	kek = Vec3d(X, C, 0);
-			if (h >= 180 && h < 240)	kek = Vec3d(C, X, 0);
-			if (h >= 240 && h < 300)	kek = Vec3d(C, 0, X);
-			if (h >= 300 && h < 360)	kek = Vec3d(X, 0, C);
-			kek[0] = (kek[0] + m) * 255;
-			kek[1] = (kek[1] + m) * 255;
-			kek[2] = (kek[2] + m) * 255;
-
-			imBGR.at<Vec3b>(x, y) = kek;
-		}
-	}
-	return imBGR;
+	imHSV.forEach<Vec3b>([](Vec3b& p, const int* pos) {
+		double H = p[0];
+		double S = p[1] / 255.0;
+		double V = p[2] / 255.0;
+		double C = V * S;
+		double X = C * (1 - abs(CalcMod(H / 60, 2) - 1));
+		double m = V - C;
+		double h = H;
+		Vec3d kek;
+		if (h >= 0 && h < 60)		kek = Vec3d(0, X, C);
+		if (h >= 60 && h < 120)		kek = Vec3d(0, C, X);
+		if (h >= 120 && h < 180)	kek = Vec3d(X, C, 0);
+		if (h >= 180 && h < 240)	kek = Vec3d(C, X, 0);
+		if (h >= 240 && h < 300)	kek = Vec3d(C, 0, X);
+		if (h >= 300 && h < 360)	kek = Vec3d(X, 0, C);
+		kek[0] = (kek[0] + m) * 255;
+		kek[1] = (kek[1] + m) * 255;
+		kek[2] = (kek[2] + m) * 255;
+		p = kek;
+		});
+	return imHSV;
 }
 
 
