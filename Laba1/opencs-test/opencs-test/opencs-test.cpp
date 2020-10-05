@@ -60,8 +60,8 @@ Mat bgrToHsv(Mat& imBGR) {
 		if (Cmax == 0) S = 0;
 		else S = d / Cmax;
 		V = Cmax;
-		Vec3d kek = Vec3d(H, S * 255, V * 255);
-		p = kek;
+		Vec3d hsv = Vec3d(H, S * 255.0, V * 255.0);
+		p = hsv;
 
 		});
 	return imBGR;
@@ -76,17 +76,17 @@ Mat hsvToBgr(Mat& imHSV) {
 		double X = C * (1 - abs(CalcMod(H / 60, 2) - 1));
 		double m = V - C;
 		double h = H;
-		Vec3d kek;
-		if (h >= 0 && h < 60)		kek = Vec3d(0, X, C);
-		if (h >= 60 && h < 120)		kek = Vec3d(0, C, X);
-		if (h >= 120 && h < 180)	kek = Vec3d(X, C, 0);
-		if (h >= 180 && h < 240)	kek = Vec3d(C, X, 0);
-		if (h >= 240 && h < 300)	kek = Vec3d(C, 0, X);
-		if (h >= 300 && h < 360)	kek = Vec3d(X, 0, C);
-		kek[0] = (kek[0] + m) * 255;
-		kek[1] = (kek[1] + m) * 255;
-		kek[2] = (kek[2] + m) * 255;
-		p = kek;
+		Vec3d bgr;
+		if (h >= 0 && h < 60)		bgr = Vec3d(0, X, C);
+		if (h >= 60 && h < 120)		bgr = Vec3d(0, C, X);
+		if (h >= 120 && h < 180)	bgr = Vec3d(X, C, 0);
+		if (h >= 180 && h < 240)	bgr = Vec3d(C, X, 0);
+		if (h >= 240 && h < 300)	bgr = Vec3d(C, 0, X);
+		if (h >= 300 && h < 360)	bgr = Vec3d(X, 0, C);
+		bgr[0] = (bgr[0] + m) * 255;
+		bgr[1] = (bgr[1] + m) * 255;
+		bgr[2] = (bgr[2] + m) * 255;
+		p = bgr;
 		});
 	return imHSV;
 }
@@ -182,11 +182,11 @@ int main() {
 	imshow("MY BGR to HSV", imHSV);
 	waitKey();
 	long double t1hsvToBgr = clock();
-	Mat kek = hsvToBgr(imHSV);//HSV ---> BGR
+	Mat toBgr = hsvToBgr(imHSV);//HSV ---> BGR
 	long double t2hsvToBgr = clock();
 	t2hsvToBgr -= t1hsvToBgr;
 	cout << "MY HSV to BGR:  " << fixed << setprecision(20) << t2hsvToBgr / CLOCKS_PER_SEC << '\n';
-	imshow("MY HSV to BGR", kek);
+	imshow("MY HSV to BGR", toBgr);
 	waitKey();
 
 	//увеличение яркости
