@@ -1,0 +1,78 @@
+﻿  Noise.cpp
+D:\Desktop\ВУЗ\3 курс\Обработка изображений\Noise\Noise\Noise.cpp(40,98): warning C4244: аргумент: преобразование "T" в "_Tp", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              _Tp=uchar
+          ]
+D:\Desktop\ВУЗ\3 курс\Обработка изображений\Noise\Noise\Noise.cpp(40,69): warning C4244: аргумент: преобразование "T" в "_Tp", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              _Tp=uchar
+          ]
+D:\Desktop\ВУЗ\3 курс\Обработка изображений\Noise\Noise\Noise.cpp(40,40): warning C4244: аргумент: преобразование "T" в "_Tp", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              _Tp=uchar
+          ]
+D:\Desktop\ВУЗ\3 курс\Обработка изображений\Noise\Noise\Noise.cpp(55,41): warning C4244: /=: преобразование "double" в "_Ty", возможна потеря данных
+          with
+          [
+              _Ty=float
+          ]
+D:\Desktop\ВУЗ\3 курс\Обработка изображений\Noise\Noise\Noise.cpp(71,114): warning C4244: +=: преобразование "_Ty" в "_Tp", возможна потеря данных
+          with
+          [
+              _Ty=float
+          ]
+          and
+          [
+              _Tp=uchar
+          ]
+D:\Desktop\ВУЗ\3 курс\Обработка изображений\Noise\Noise\Noise.cpp(72,114): warning C4244: +=: преобразование "_Ty" в "_Tp", возможна потеря данных
+          with
+          [
+              _Ty=float
+          ]
+          and
+          [
+              _Tp=uchar
+          ]
+D:\Desktop\ВУЗ\3 курс\Обработка изображений\Noise\Noise\Noise.cpp(73,114): warning C4244: +=: преобразование "_Ty" в "_Tp", возможна потеря данных
+          with
+          [
+              _Ty=float
+          ]
+          and
+          [
+              _Tp=uchar
+          ]
+D:\Desktop\ВУЗ\3 курс\Обработка изображений\Noise\Noise\Noise.cpp(116,21): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+D:\Desktop\ВУЗ\3 курс\Обработка изображений\Noise\Noise\Noise.cpp(16,22): warning C4244: return: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\Desktop\ВУЗ\3 курс\Обработка изображений\Noise\Noise\Noise.cpp(40): message : выполняется компиляция ссылки на экземпляр шаблон функции "T check<_Ty>(T,int,int)"
+          with
+          [
+              T=float,
+              _Ty=float
+          ]
+D:\Desktop\ВУЗ\3 курс\Обработка изображений\Noise\Noise\Noise.cpp(17,27): warning C4244: return: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+  Noise.vcxproj -> D:\Desktop\ВУЗ\3 курс\Обработка изображений\Noise\x64\Debug\Noise.exe
