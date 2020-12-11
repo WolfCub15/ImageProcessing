@@ -1,0 +1,67 @@
+﻿  Segmentation.cpp
+D:\Desktop\ВУЗ\3 курс\Обработка изображений\Segmentation\Segmentation\Segmentation.cpp(14,36): warning C4305: аргумент: усечение из "double" в "float"
+  canny.cpp
+D:\Desktop\ВУЗ\3 курс\Обработка изображений\Segmentation\Segmentation\canny.cpp(56,26): warning C4244: =: преобразование "double" в "_Tp", возможна потеря данных
+          with
+          [
+              _Tp=uchar
+          ]
+D:\Desktop\ВУЗ\3 курс\Обработка изображений\Segmentation\Segmentation\canny.cpp(57,26): warning C4244: =: преобразование "double" в "_Tp", возможна потеря данных
+          with
+          [
+              _Tp=uchar
+          ]
+D:\Desktop\ВУЗ\3 курс\Обработка изображений\Segmentation\Segmentation\canny.cpp(58,26): warning C4244: =: преобразование "double" в "_Tp", возможна потеря данных
+          with
+          [
+              _Tp=uchar
+          ]
+D:\Desktop\ВУЗ\3 курс\Обработка изображений\Segmentation\Segmentation\canny.cpp(69,102): warning C4244: аргумент: преобразование "double" в "_Tp", возможна потеря данных
+          with
+          [
+              _Tp=float
+          ]
+D:\Desktop\ВУЗ\3 курс\Обработка изображений\Segmentation\Segmentation\canny.cpp(69,81): warning C4244: аргумент: преобразование "double" в "_Tp", возможна потеря данных
+          with
+          [
+              _Tp=float
+          ]
+D:\Desktop\ВУЗ\3 курс\Обработка изображений\Segmentation\Segmentation\canny.cpp(69,60): warning C4244: аргумент: преобразование "double" в "_Tp", возможна потеря данных
+          with
+          [
+              _Tp=float
+          ]
+D:\Desktop\ВУЗ\3 курс\Обработка изображений\Segmentation\Segmentation\canny.cpp(196,51): warning C4244: /=: преобразование "double" в "_Ty", возможна потеря данных
+          with
+          [
+              _Ty=float
+          ]
+D:\Desktop\ВУЗ\3 курс\Обработка изображений\Segmentation\Segmentation\canny.cpp(212,131): warning C4244: +=: преобразование "_Ty" в "_Tp", возможна потеря данных
+          with
+          [
+              _Ty=float
+          ]
+          and
+          [
+              _Tp=uchar
+          ]
+D:\Desktop\ВУЗ\3 курс\Обработка изображений\Segmentation\Segmentation\canny.cpp(213,131): warning C4244: +=: преобразование "_Ty" в "_Tp", возможна потеря данных
+          with
+          [
+              _Ty=float
+          ]
+          and
+          [
+              _Tp=uchar
+          ]
+D:\Desktop\ВУЗ\3 курс\Обработка изображений\Segmentation\Segmentation\canny.cpp(214,131): warning C4244: +=: преобразование "_Ty" в "_Tp", возможна потеря данных
+          with
+          [
+              _Ty=float
+          ]
+          and
+          [
+              _Tp=uchar
+          ]
+  Создание кода...
+  Segmentation.vcxproj -> D:\Desktop\ВУЗ\3 курс\Обработка изображений\Segmentation\x64\Debug\Segmentation.exe
